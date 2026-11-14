@@ -47,7 +47,7 @@ export default async (req) => {
   }
 
   // La funzione resta attiva in background; il visitatore può continuare a navigare.
-  await sleep(10 * 60 * 1000);
+  await sleep(3 * 60 * 1000);
 
   const recipient = testMode ? testEmail : email;
   const response = await fetch("https://api.resend.com/emails", {
