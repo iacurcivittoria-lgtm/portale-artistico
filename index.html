@@ -391,7 +391,7 @@ footer {
                 style="box-sizing:border-box; width:100%; padding:13px 14px; border:1px solid #cbd5dc; border-radius:6px; font:inherit;"
             >
             <p style="font-size:12px; color:#687985; margin-top:8px;">
-                L'indirizzo è facoltativo. Se lo inserisci, sarà utilizzato esclusivamente per inviarti la copia digitale dell'opera.
+                L'indirizzo email è facoltativo. Se lo inserisci, sarà utilizzato esclusivamente per inviarti la copia digitale dell'opera.
             </p>
         </div>
 
@@ -853,7 +853,7 @@ footer {
     <div class="captcha-success">
         <div class="captcha-label">GESTIONE DELLE RICHIESTE</div>
         <h2>Sala d'attesa virtuale</h2>
-        <p>Sei il numero <strong>1.482</strong> in coda. La tua attesa è importante per noi.</p>
+        <p>Sei il numero <strong id="numeroCoda">1.482</strong> in coda. La tua attesa è importante per noi.</p>
         <p class="small-note">Tempo di attesa stimato: breve.</p>
         <div class="modal-buttons" style="justify-content:center;">
             <button onclick="attendiInCoda()">ATTENDO</button>
@@ -877,7 +877,7 @@ footer {
     <h2 style="font-size:21px;">SEI DAVVERO SICURO DI VOLER USCIRE?</h2>
     <div class="modal-buttons">
         <button onclick="mostraSchermataUscita()">SICURISSIMO</button>
-        <button class="secondary" onclick="mostraSessioneScaduta()">HO ALTRO TEMPO</button>
+        <button class="secondary" onclick="riprendiDalPuntoInterrotto()">HO ALTRO TEMPO</button>
     </div>
 </section>
 
@@ -886,7 +886,11 @@ footer {
     <div class="modal">
         <div class="captcha-label">AVVISO DI SISTEMA</div>
         <h2>Sessione scaduta</h2>
-        <p>La tua sessione è scaduta per motivi di tempo. Sarai reindirizzato alla pagina iniziale.</p>
+        <p>La tua sessione è scaduta per motivi di tempo. Come desideri procedere?</p>
+        <div class="modal-buttons">
+            <button onclick="riprovaProcedura()">RIPROVA</button>
+            <button class="secondary" onclick="nonHoAltroTempo()">NON HO TEMPO DA PERDERE</button>
+        </div>
     </div>
 </div>
 
@@ -1375,8 +1379,8 @@ function continuaCaricamento() {
 
 // Prepara la prima griglia solo quando la schermata viene effettivamente mostrata.
 
-// CHATBOT DIMOSTRATIVO: risposte predefinite a rotazione.
-const risposteAssistenza = [
+// CHATBOT DIMOSTRATIVO: le risposte cambiano ordine a ogni nuova sessione.
+const risposteAssistenzaOriginali = [
     "La tua attesa è fondamentale per garantire la qualità del servizio.",
     "Il tempo è denaro. Grazie per averlo investito in questo processo.",
     "La tua produttività è importante. Per questo abbiamo temporaneamente sospeso la tua produttività.",
@@ -1384,24 +1388,55 @@ const risposteAssistenza = [
     "Sei ancora qui? Il sistema funziona esattamente come previsto.",
     "La tua richiesta è in elaborazione. Il tempo necessario non dipende da noi."
 ];
+let risposteAssistenza = [];
 let indiceRispostaAssistenza = 0;
+let messaggiUtenteAssistenza = 0;
 let timerPopupAssistenza = null;
 let timerProblemaRisolto = null;
+let timerScadenzaSessione = null;
+let timerPopupScaduta = null;
 let popupAssistenzaGiaMostrato = false;
+let numeroCoda = generaNumeroCoda();
+let puntoInterrotto = "salaAttesaVirtuale";
+
+function mescolaRisposteAssistenza() {
+    risposteAssistenza = [...risposteAssistenzaOriginali];
+    for (let i = risposteAssistenza.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [risposteAssistenza[i], risposteAssistenza[j]] = [risposteAssistenza[j], risposteAssistenza[i]];
+    }
+    indiceRispostaAssistenza = 0;
+}
+
+function generaNumeroCoda() {
+    return Math.floor(Math.random() * (2000 - 500 + 1)) + 500;
+}
+
+function aggiornaNumeroCoda() {
+    const elemento = document.getElementById("numeroCoda");
+    if (elemento) elemento.textContent = numeroCoda.toLocaleString("it-IT");
+}
+
+function avviaControlloChatAssistenza() {
+    if (timerPopupAssistenza || popupAssistenzaGiaMostrato) return;
+    // Il pop-up compare dopo quattro risposte oppure dopo 40 secondi, se prima.
+    timerPopupAssistenza = window.setTimeout(mostraPopupProblemaTecnico, 40000);
+}
+
+function mostraPopupProblemaTecnico() {
+    if (popupAssistenzaGiaMostrato) return;
+    popupAssistenzaGiaMostrato = true;
+    if (timerPopupAssistenza) clearTimeout(timerPopupAssistenza);
+    timerPopupAssistenza = null;
+    document.getElementById("percorsoAssistenza").classList.remove("hidden");
+    mostraPassoAssistenza("passoProblemaTecnico");
+}
 
 function apriChatAssistenza() {
     document.getElementById("chatAssistenza").classList.remove("hidden");
     document.getElementById("apriAssistenza").classList.add("hidden");
     document.getElementById("testoAssistenza").focus();
-
-    // Il pop-up compare una sola volta, dopo 15 secondi di permanenza in assistenza.
-    if (!popupAssistenzaGiaMostrato && !timerPopupAssistenza) {
-        timerPopupAssistenza = window.setTimeout(() => {
-            popupAssistenzaGiaMostrato = true;
-            document.getElementById("percorsoAssistenza").classList.remove("hidden");
-            mostraPassoAssistenza("passoProblemaTecnico");
-        }, 15000);
-    }
+    avviaControlloChatAssistenza();
 }
 
 function mostraPassoAssistenza(id) {
@@ -1439,7 +1474,6 @@ function mostraSchermataUscita() {
 function mostraProblemaRisolto() {
     chiudiPercorsoAssistenza();
     mostraSchermata("problemaRisolto");
-
     const caricamento = document.getElementById("caricamentoProblemaRisolto");
     caricamento.classList.remove("hidden");
     if (timerProblemaRisolto) clearTimeout(timerProblemaRisolto);
@@ -1452,25 +1486,64 @@ function mostraProblemaRisolto() {
 }
 
 function mostraSalaAttesa() {
+    aggiornaNumeroCoda();
     mostraSchermata("salaAttesaVirtuale");
 }
 
 function attendiInCoda() {
+    if (timerScadenzaSessione) clearTimeout(timerScadenzaSessione);
     // Dopo cinque secondi in sala d'attesa, la sessione viene dichiarata scaduta.
-    window.setTimeout(mostraSessioneScaduta, 5000);
+    timerScadenzaSessione = window.setTimeout(mostraSessioneScaduta, 5000);
 }
 
 function nonHoAltroTempo() {
+    if (timerScadenzaSessione) clearTimeout(timerScadenzaSessione);
+    document.getElementById("popupSessioneScaduta").classList.add("hidden");
     mostraSchermata("violazioneTermini");
 }
 
 function mostraSessioneScaduta() {
+    puntoInterrotto = "salaAttesaVirtuale";
     document.getElementById("popupSessioneScaduta").classList.remove("hidden");
-    window.setTimeout(() => {
-        document.getElementById("popupSessioneScaduta").classList.add("hidden");
-        // Ritorno alla schermata iniziale; il contatore generale continua.
-        mostraSchermata("inizio");
-    }, 3000);
+}
+
+function riprendiDalPuntoInterrotto() {
+    document.getElementById("popupSessioneScaduta").classList.add("hidden");
+    chiudiPercorsoAssistenza();
+    mostraSalaAttesa();
+}
+
+function resetTentativo() {
+    // Pulisce timer e stati della sessione precedente, evitando blocchi al secondo tentativo.
+    [timerPopupAssistenza, timerProblemaRisolto, timerScadenzaSessione, timerPopupScaduta]
+        .forEach(timer => { if (timer) clearTimeout(timer); });
+    timerPopupAssistenza = null;
+    timerProblemaRisolto = null;
+    timerScadenzaSessione = null;
+    timerPopupScaduta = null;
+    popupAssistenzaGiaMostrato = false;
+    messaggiUtenteAssistenza = 0;
+    mescolaRisposteAssistenza();
+    numeroCoda = generaNumeroCoda();
+    puntoInterrotto = "salaAttesaVirtuale";
+
+    document.getElementById("percorsoAssistenza").classList.add("hidden");
+    document.getElementById("popupSessioneScaduta").classList.add("hidden");
+    document.getElementById("chatAssistenza").classList.add("hidden");
+    document.getElementById("apriAssistenza").classList.remove("hidden");
+    document.getElementById("messaggiChat").innerHTML = "<div class=\"support-message support-agent\">Benvenuto nell’assistenza. Come possiamo aiutarti?</div>";
+    document.getElementById("testoAssistenza").value = "";
+    document.getElementById("attesaErrore").classList.remove("hidden");
+    document.getElementById("attesaConclusa").classList.add("hidden");
+    document.getElementById("contoAllaRovescia").textContent = "5";
+    document.getElementById("vaiAvantiSalaAttesa").classList.add("hidden");
+    document.getElementById("caricamentoProblemaRisolto").classList.remove("hidden");
+    aggiornaNumeroCoda();
+}
+
+function riprovaProcedura() {
+    resetTentativo();
+    mostraSchermata("inizio");
 }
 
 function inviaMessaggioAssistenza(event) {
@@ -1489,18 +1562,23 @@ function inviaMessaggioAssistenza(event) {
 
     const risposta = document.createElement("div");
     risposta.className = "support-message support-agent";
-    risposta.textContent = risposteAssistenza[indiceRispostaAssistenza];
+    risposta.textContent = risposteAssistenza[indiceRispostaAssistenza % risposteAssistenza.length];
     contenitore.appendChild(risposta);
 
-    indiceRispostaAssistenza =
-        (indiceRispostaAssistenza + 1) % risposteAssistenza.length;
+    indiceRispostaAssistenza += 1;
+    messaggiUtenteAssistenza += 1;
 
     campo.value = "";
     contenitore.scrollTop = contenitore.scrollHeight;
+
+    // Dopo quattro messaggi dell'utente (quindi quattro risposte), mostra l'avviso.
+    if (messaggiUtenteAssistenza >= 4) mostraPopupProblemaTecnico();
 }
 
 
 let richiestaEmailInviata = false;
+mescolaRisposteAssistenza();
+aggiornaNumeroCoda();
 
 async function continuaDallaPrimaSchermata() {
     const campo = document.getElementById("emailVisitatore");
