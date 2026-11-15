@@ -1,4 +1,4 @@
-// Netlify Background Function: riceve l'indirizzo e invia la lettera dopo 10 minuti.
+// Netlify Background Function: riceve l'indirizzo e invia la lettera dopo 3 minuti.
 // In fase di prova invia SOLO alla casella TEST_EMAIL del proprietario dell'account Resend.
 
 export const config = {
@@ -8,7 +8,47 @@ export const config = {
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const letterText = `La tua esperienza artistica è terminata?\n\nGrazie per aver partecipato a questa esperienza artistica!\n\nTi ho sottratto alcuni minuti del tuo tempo, promettendoti di mostrarti un'opera. Eppure, quell'opera non l'hai mai vista. O forse sì.\n\nOgni giorno qualcuno, o qualcosa, ti sottrae il tuo tempo. Succede continuamente, spesso senza che tu te ne accorga:\n\n• Quando rimani bloccato nel traffico, aspettando che il semaforo diventi verde.\n• Quando trascorri mezz'ora in fila alle casse del supermercato.\n• Quando aspetti un autobus o un treno che non arriva.\n• Quando resti al telefono con un servizio clienti, passando da un operatore all'altro.\n• Quando compili moduli, ripeti gli stessi dati e dimostri continuamente di essere una persona reale.\n• Quando aspetti il caricamento di una pagina, un aggiornamento o un codice che non arriva.\n• Quando scorri Instagram, TikTok o giochi sul cellulare, mentre qualcuno guadagna proprio dal tempo che trascorri davanti allo schermo.\n\nSono tutte situazioni diverse, ma hanno qualcosa in comune: azioni e servizi che dovrebbero semplificarti la vita finiscono spesso per complicarla, chiedendoti tempo in cambio di qualcosa che dovrebbe essere immediato.\n\nLe aziende che introducono chatbot e sistemi automatizzati per ridurre i costi non risparmiano soltanto sul personale: trasferiscono parte del lavoro e dell'attesa sugli utenti. Le casse automatiche non sempre velocizzano la spesa. Le procedure digitali non sempre semplificano la burocrazia. Le tecnologie nate per farci risparmiare tempo finiscono, talvolta, per consumarlo.\n\nE intanto il tempo passa.\n\nFrancesco Petrarca, nel sonetto 272 del Canzoniere, scrive:\n\n«La vita fugge, et non s'arresta una hora»\n«et la morte vien dietro a gran giornate».\n\nLa vita scorre e non si arresta mai. Non possiamo metterla in pausa, recuperare i minuti perduti o chiedere un rimborso per le ore trascorse ad aspettare.\n\nIl mio è un invito a riflettere sul valore del proprio tempo.\n\nHai trascorso minuti cercando di accedere a un'opera che ti era stata promessa come immediatamente disponibile. Hai accettato condizioni, superato verifiche, atteso caricamenti e seguito procedure.\n\nE se sei arrivato fin qui, forse il tempo per aspettare lo hai trovato.\n\nMa quanto vale il tuo tempo? E soprattutto, chi decide come impiegarlo?\n\nGrazie per averlo dedicato alla mia opera. Anche se, forse, l'opera eri proprio tu.\n\nVittoria iacurci`;
+const letterText = `Grazie per aver partecipato a questa esperienza!
+
+Ti ho sottratto alcuni minuti del tuo tempo, promettendoti di mostrarti un'opera. Eppure, quell'opera non l'hai mai vista. O forse sì.
+
+Ogni giorno qualcuno, o qualcosa, ti sottrae il tuo tempo. Succede continuamente, spesso senza che tu te ne accorga:
+
+· Quando rimaniamo bloccati nel traffico, aspettando che il semaforo diventi verde.
+· Quando trascorriamo mezz'ora in fila alle casse del supermercato.
+· Quando aspettiamo un autobus o un treno che non arriva.
+· Quando restiamo al telefono con un servizio clienti, passando da un operatore all'altro.
+· Quando compiliamo moduli, ripetiamo gli stessi dati e dimostriamo continuamente di essere persone reali.
+· Quando aspettiamo il caricamento di una pagina, un aggiornamento o un codice che non arriva.
+· Quando scorriamo Instagram, TikTok o giochiamo sul cellulare, mentre il nostro tempo e la nostra attenzione diventano una risorsa economica per qualcun altro.
+
+Sono tutte situazioni diverse, ma hanno qualcosa in comune: azioni e servizi che dovrebbero semplificarti la vita finiscono spesso per complicarla, chiedendoti tempo in cambio di qualcosa che dovrebbe essere immediato.
+
+Le aziende che introducono chatbot e sistemi automatizzati per ridurre i costi non risparmiano soltanto sul personale: trasferiscono parte del lavoro e dell'attesa sugli utenti. Le casse automatiche non sempre velocizzano la spesa. Le procedure digitali non sempre semplificano la burocrazia. Le tecnologie nate per farci risparmiare tempo finiscono, talvolta, per consumarlo.
+
+Il progresso tecnologico non coincide necessariamente con il progresso della qualità della nostra vita. Non sempre ciò che fa risparmiare tempo a un'azienda lo fa risparmiare anche a noi.
+
+E così, mentre tutto dovrebbe diventare più veloce, noi continuiamo ad aspettare.
+
+C'è però un aspetto ancora più contraddittorio in tutto questo: probabilmente hai dedicato più tempo a cercare di accedere a questa opera che a osservare molte altre opere d'arte. Davanti a un dipinto, a una fotografia o a un'installazione possiamo fermarci pochi secondi, per poi proseguire. Qui, invece, hai accettato di attendere, compilare, verificare e riprovare pur di ottenere qualcosa che ti era stato promesso.
+
+Quanto tempo dedichiamo, spesso senza accorgercene, a questi meccanismi? E quanto ne rimane per ciò che potrebbe davvero arricchirci?
+
+Dedichiamo minuti, ore e giornate a procedure che non abbiamo scelto, a piattaforme che competono per la nostra attenzione, a sistemi che ci chiedono continuamente di adattarci ai loro tempi. Eppure, quando si tratta di leggere un libro, visitare una mostra, imparare qualcosa, coltivare una passione o semplicemente fare ciò che desideriamo, diciamo spesso di non avere tempo.
+
+Forse il problema non è soltanto la quantità di tempo che abbiamo a disposizione, ma il modo in cui viene occupato, sottratto, venduto e distribuito.
+
+Il mio è un invito a riflettere sul valore del proprio tempo, ma anche su chi ne dispone, chi ne trae profitto e chi stabilisce le condizioni alle quali siamo costretti ad adattarci.
+
+Hai trascorso minuti cercando di accedere a un'opera che ti era stata promessa come immediatamente disponibile. Hai accettato condizioni, superato verifiche, atteso caricamenti e seguito procedure.
+
+E se sei arrivato fin qui, forse il tempo per aspettare lo hai trovato.
+
+Ma quanto vale il tuo tempo? E soprattutto, chi decide come impiegarlo?
+
+Grazie per averlo dedicato alla mia opera. Anche se, forse, l'opera eri proprio tu.
+
+Vittoria Iacurci`;
 
 export default async (req) => {
   if (req.method !== "POST") return;
