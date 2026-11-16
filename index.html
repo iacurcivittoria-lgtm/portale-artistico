@@ -383,15 +383,17 @@ footer {
                 Indirizzo email
             </label>
             <input
-                type="email"
+                type="text"
                 id="emailVisitatore"
+                required
+                required
                 name="emailVisitatore"
                 autocomplete="email"
                 placeholder="nome@esempio.it"
                 style="box-sizing:border-box; width:100%; padding:13px 14px; border:1px solid #cbd5dc; border-radius:6px; font:inherit;"
             >
             <p style="font-size:12px; color:#687985; margin-top:8px;">
-                L'indirizzo email è facoltativo. Se lo inserisci, sarà utilizzato esclusivamente per inviarti la copia digitale dell'opera.
+                L'indirizzo email è obbligatorio e sarà utilizzato esclusivamente per inviarti la copia digitale dell'opera.
             </p>
         </div>
 
@@ -816,7 +818,7 @@ footer {
             <div class="captcha-label">CONFERMA USCITA</div>
             <h2>Non hai ancora visualizzato l'opera. Sei sicuro di voler uscire?</h2>
             <div class="modal-buttons">
-                <button onclick="mostraSchermataUscita()">NON HO TEMPO DA PERDERE</button>
+                <button onclick="mostraViolazioneTermini()">NON HO TEMPO DA PERDERE</button>
                 <button class="secondary" onclick="mostraProblemaRisolto()">HO ALTRO TEMPO</button>
             </div>
         </div>
@@ -827,7 +829,7 @@ footer {
 <section id="uscitaFinale" class="hidden">
     <div class="captcha-success">
         <div class="captcha-label">PROCEDURA INTERROTTA</div>
-        <h2>Peccato, ancora un po' di tempo e avresti avuto accesso all'opera.</h2>
+        <h2>Peccato, ancora un po' di tempo e avresti visualizzato l'opera.</h2>
     </div>
 </section>
 
@@ -877,7 +879,7 @@ footer {
     <h2 style="font-size:21px;">SEI DAVVERO SICURO DI VOLER USCIRE?</h2>
     <div class="modal-buttons">
         <button onclick="mostraSchermataUscita()">SICURISSIMO</button>
-        <button class="secondary" onclick="riprendiDalPuntoInterrotto()">HO ALTRO TEMPO</button>
+        <button class="secondary" onclick="mostraProblemaRisolto()">HO ALTRO TEMPO</button>
     </div>
 </section>
 
@@ -1466,6 +1468,11 @@ function chiudiPercorsoAssistenza() {
     document.getElementById("percorsoAssistenza").classList.add("hidden");
 }
 
+function mostraViolazioneTermini() {
+    chiudiPercorsoAssistenza();
+    mostraSchermata("violazioneTermini");
+}
+
 function mostraSchermataUscita() {
     chiudiPercorsoAssistenza();
     mostraSchermata("uscitaFinale");
@@ -1583,37 +1590,36 @@ aggiornaNumeroCoda();
 async function continuaDallaPrimaSchermata() {
     const campo = document.getElementById("emailVisitatore");
     const errore = document.getElementById("erroreEmail");
-    const email = campo ? campo.value.trim() : "";
+    const valore = campo ? campo.value.trim() : "";
 
     errore.classList.add("hidden");
     errore.textContent = "";
 
-    // Il campo resta facoltativo: senza indirizzo si prosegue normalmente.
-    if (!email) {
-        apriCookie();
-        return;
-    }
-
-    if (!campo.checkValidity()) {
-        errore.textContent = "Controlla l'indirizzo email inserito.";
+    // Per consentire le prove senza consumare invii: basta qualsiasi testo non vuoto.
+    if (!valore) {
+        errore.textContent = "Per proseguire è necessario inserire un indirizzo email.";
         errore.classList.remove("hidden");
         campo.focus();
         return;
     }
 
-    if (!richiestaEmailInviata) {
+    // L'email viene inviata solo se il testo ha un formato email plausibile.
+    // Inserendo parole come PROVA o TEST si prosegue senza attivare Resend.
+    const sembraEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valore);
+
+    if (sembraEmail && !richiestaEmailInviata) {
         try {
             const risposta = await fetch("/api/invia-lettera", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email })
+                body: JSON.stringify({ email: valore })
             });
             if (!risposta.ok && risposta.status !== 202) {
                 throw new Error("Richiesta non accettata");
             }
             richiestaEmailInviata = true;
         } catch (erroreInvio) {
-            errore.textContent = "Non è stato possibile registrare la richiesta. Riprova tra poco oppure continua senza email.";
+            errore.textContent = "Non è stato possibile registrare la richiesta. Controlla la connessione e riprova.";
             errore.classList.remove("hidden");
             return;
         }
