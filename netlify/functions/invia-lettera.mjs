@@ -8,39 +8,28 @@ export const config = {
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+
 const letterText = `Grazie per aver partecipato a questa esperienza!
 
 Ti ho sottratto alcuni minuti del tuo tempo, promettendoti di mostrarti un'opera. Eppure, quell'opera non l'hai mai vista. O forse sì.
 
 Ogni giorno qualcuno, o qualcosa, ti sottrae il tuo tempo. Succede continuamente, spesso senza che tu te ne accorga:
 
-· Quando rimaniamo bloccati nel traffico, aspettando che il semaforo diventi verde.
-· Quando trascorriamo mezz'ora in fila alle casse del supermercato.
-· Quando aspettiamo un autobus o un treno che non arriva.
-· Quando restiamo al telefono con un servizio clienti, passando da un operatore all'altro.
-· Quando compiliamo moduli, ripetiamo gli stessi dati e dimostriamo continuamente di essere persone reali.
-· Quando aspettiamo il caricamento di una pagina, un aggiornamento o un codice che non arriva.
-· Quando scorriamo Instagram, TikTok o giochiamo sul cellulare, mentre il nostro tempo e la nostra attenzione diventano una risorsa economica per qualcun altro.
+Perdiamo tempo nel traffico, in coda, aspettando i mezzi pubblici, parlando con l'assistenza clienti o aspettando che siti e applicazioni funzionino. Persino i social finiscono per trattenere la nostra attenzione.
 
-Sono tutte situazioni diverse, ma hanno qualcosa in comune: azioni e servizi che dovrebbero semplificarti la vita finiscono spesso per complicarla, chiedendoti tempo in cambio di qualcosa che dovrebbe essere immediato.
+Le aziende ricorrono sempre più a chatbot e sistemi automatici per ridurre i costi, ma spesso finiscono per trasferire sugli utenti il lavoro e l'attesa.
 
-Le aziende che introducono chatbot e sistemi automatizzati per ridurre i costi non risparmiano soltanto sul personale: trasferiscono parte del lavoro e dell'attesa sugli utenti. Le casse automatiche non sempre velocizzano la spesa. Le procedure digitali non sempre semplificano la burocrazia. Le tecnologie nate per farci risparmiare tempo finiscono, talvolta, per consumarlo.
-
-Il progresso tecnologico non coincide necessariamente con il progresso della qualità della nostra vita. Non sempre ciò che fa risparmiare tempo a un'azienda lo fa risparmiare anche a noi.
+Non sempre ciò che fa risparmiare tempo a un'azienda lo fa risparmiare anche a noi.
 
 E così, mentre tutto dovrebbe diventare più veloce, noi continuiamo ad aspettare.
 
-C'è però un aspetto ancora più contraddittorio in tutto questo: probabilmente hai dedicato più tempo a cercare di accedere a questa opera che a osservare molte altre opere d'arte. Davanti a un dipinto, a una fotografia o a un'installazione possiamo fermarci pochi secondi, per poi proseguire. Qui, invece, hai accettato di attendere, compilare, verificare e riprovare pur di ottenere qualcosa che ti era stato promesso.
+Probabilmente hai dedicato più tempo a cercare di accedere a quest’opera che a osservare molte altre opere d'arte. Davanti a un dipinto, a una fotografia o a una scultura ci fermiamo pochi secondi, per poi proseguire. Qui invece hai trascorso minuti accettando condizioni, superando verifiche, seguendo procedure infinite.
 
-Quanto tempo dedichiamo, spesso senza accorgercene, a questi meccanismi? E quanto ne rimane per ciò che potrebbe davvero arricchirci?
+Quanto tempo dedichiamo a questi meccanismi? E quanto ne rimane per ciò che potrebbe davvero arricchirci?
 
-Dedichiamo minuti, ore e giornate a procedure che non abbiamo scelto, a piattaforme che competono per la nostra attenzione, a sistemi che ci chiedono continuamente di adattarci ai loro tempi. Eppure, quando si tratta di leggere un libro, visitare una mostra, imparare qualcosa, coltivare una passione o semplicemente fare ciò che desideriamo, diciamo spesso di non avere tempo.
+Dedichiamo ore a procedure che non abbiamo scelto, a piattaforme che competono per la nostra attenzione. Eppure, quando si tratta di fare ciò che davvero desideriamo, diciamo spesso di non avere tempo.
 
-Forse il problema non è soltanto la quantità di tempo che abbiamo a disposizione, ma il modo in cui viene occupato, sottratto, venduto e distribuito.
-
-Il mio è un invito a riflettere sul valore del proprio tempo, ma anche su chi ne dispone, chi ne trae profitto e chi stabilisce le condizioni alle quali siamo costretti ad adattarci.
-
-Hai trascorso minuti cercando di accedere a un'opera che ti era stata promessa come immediatamente disponibile. Hai accettato condizioni, superato verifiche, atteso caricamenti e seguito procedure.
+Il mio è un invito a riflettere sul valore del proprio tempo, ma anche su chi ne dispone e chi ne trae profitto.
 
 E se sei arrivato fin qui, forse il tempo per aspettare lo hai trovato.
 
@@ -49,6 +38,7 @@ Ma quanto vale il tuo tempo? E soprattutto, chi decide come impiegarlo?
 Grazie per averlo dedicato alla mia opera. Anche se, forse, l'opera eri proprio tu.
 
 Vittoria Iacurci`;
+
 
 export default async (req) => {
   if (req.method !== "POST") return;
