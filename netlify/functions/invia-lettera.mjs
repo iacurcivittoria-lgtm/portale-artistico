@@ -9,35 +9,35 @@ export const config = {
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 
+
 const letterText = `Grazie per aver partecipato a questa esperienza!
 
-Ti ho sottratto alcuni minuti del tuo tempo, promettendoti di mostrarti un'opera. Eppure, quell'opera non l'hai mai vista. O forse sì.
+Ti ho sottratto alcuni minuti del tuo tempo promettendoti di mostrarti un’opera, eppure quell’opera non l’hai vista. 
 
-Ogni giorno qualcuno, o qualcosa, ti sottrae il tuo tempo. Succede continuamente, spesso senza che tu te ne accorga:
+O forse sì.
 
-Perdiamo tempo nel traffico, in coda, aspettando i mezzi pubblici, parlando con l'assistenza clienti o aspettando che siti e applicazioni funzionino. Persino i social finiscono per trattenere la nostra attenzione.
+Ogni giorno qualcuno o qualcosa ruba il tuo tempo:
 
-Le aziende ricorrono sempre più a chatbot e sistemi automatici per ridurre i costi, ma spesso finiscono per trasferire sugli utenti il lavoro e l'attesa.
+nel traffico, alle casse, aspettando i mezzi pubblici, al telefono con l’assistenza clienti, scrollando sui social…
 
-Non sempre ciò che fa risparmiare tempo a un'azienda lo fa risparmiare anche a noi.
+Il tempo è diventato una merce: lo vendiamo lavorando, lo cediamo aspettando, lo regaliamo alle piattaforme. Siamo diventati efficienti nel perdere tempo e incapaci di dedicarlo a noi stessi. 
 
-E così, mentre tutto dovrebbe diventare più veloce, noi continuiamo ad aspettare.
+Le aziende ricorrono sempre di più a chatbot e a sistemi di risposta automatici per ridurre i costi. Ci hanno illusi che la tecnologia ci avrebbe fatto risparmiare tempo, ma delegando alle macchine il lavoro, le decisioni e persino il pensiero, si sta creando uno strato sociale incapace di pensare autonomamente, totalmente dipendente dalla tecnologia e con ridotta capacità di concentrazione.
 
-Probabilmente hai dedicato più tempo a cercare di accedere a quest’opera che a osservare molte altre opere d'arte. Davanti a un dipinto, a una fotografia o a una scultura ci fermiamo pochi secondi, per poi proseguire. Qui invece hai trascorso minuti accettando condizioni, superando verifiche, seguendo procedure infinite.
+Probabilmente hai dedicato più tempo a cercare di accedere a quest’opera che a osservare molte altre opere d’arte. Davanti a un dipinto, a una fotografia o a una scultura ci fermiamo pochi secondi, per poi proseguire. Qui invece hai “perso” tempo cercando di accedere a una promessa che non è stata mantenuta.
 
-Quanto tempo dedichiamo a questi meccanismi? E quanto ne rimane per ciò che potrebbe davvero arricchirci?
+Quanto tempo dedichiamo a questi meccanismi? 
 
-Dedichiamo ore a procedure che non abbiamo scelto, a piattaforme che competono per la nostra attenzione. Eppure, quando si tratta di fare ciò che davvero desideriamo, diciamo spesso di non avere tempo.
+Eppure per fare ciò che davvero desideriamo, diciamo spesso di non avere tempo.
 
 Il mio è un invito a riflettere sul valore del proprio tempo, ma anche su chi ne dispone e chi ne trae profitto.
 
-E se sei arrivato fin qui, forse il tempo per aspettare lo hai trovato.
+E se sei arrivato fin qui, forse il tempo lo hai trovato.
 
-Ma quanto vale il tuo tempo? E soprattutto, chi decide come impiegarlo?
-
-Grazie per averlo dedicato alla mia opera. Anche se, forse, l'opera eri proprio tu.
+Grazie per averlo dedicato alla mia opera. Anche se, forse, l’opera eri proprio tu.
 
 Vittoria Iacurci`;
+
 
 
 export default async (req) => {

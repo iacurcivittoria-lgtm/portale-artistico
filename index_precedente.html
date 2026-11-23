@@ -1,0 +1,1635 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Esperienza d'arte digitale</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f6f7;
+    color: #263746;
+}
+
+header {
+    background: #19364b;
+    min-height: 75px;
+    display: flex;
+    align-items: center;
+    padding: 0 8%;
+}
+
+header h1 {
+    color: white;
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+main {
+    max-width: 850px;
+    margin: 65px auto;
+    padding: 45px 65px;
+    background: white;
+    border: 1px solid #e1e4e7;
+}
+
+.timer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e5e8eb;
+    padding-bottom: 18px;
+    margin-bottom: 40px;
+    color: #687784;
+    font-size: 13px;
+}
+
+#tempo {
+    color: #19364b;
+    font-size: 17px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+h2 {
+    color: #19364b;
+    font-size: 29px;
+    font-weight: 500;
+    line-height: 1.35;
+}
+
+p {
+    color: #596873;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+button {
+    padding: 15px 24px;
+    background: #193f59;
+    color: white;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+button:hover { background: #285b78; }
+
+button.secondary {
+    background: white;
+    color: #193f59;
+    border: 1px solid #193f59;
+}
+
+button.secondary:hover { background: #edf2f5; }
+
+button.text-button {
+    background: transparent;
+    color: #285b78;
+    padding: 10px 0;
+    text-decoration: underline;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #89949d;
+    font-size: 12px;
+}
+
+.hidden { display: none !important; }
+
+.notice {
+    background: #f1f4f6;
+    border-left: 3px solid #668092;
+    padding: 16px;
+    margin-top: 25px;
+    color: #596873;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 29, 40, 0.62);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 18px;
+    z-index: 10;
+}
+
+.modal {
+    background: white;
+    width: 100%;
+    max-width: 570px;
+    padding: 35px;
+    box-shadow: 0 12px 45px rgba(0,0,0,.18);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal h2 {
+    font-size: 23px;
+    margin-top: 0;
+}
+
+.modal p { font-size: 14px; }
+
+.modal-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.modal-buttons button {
+    margin-top: 5px;
+}
+
+.preference {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 16px 0;
+    border-bottom: 1px solid #e5e8eb;
+    color: #354653;
+    font-size: 14px;
+}
+
+.preference input {
+    width: 19px;
+    height: 19px;
+    accent-color: #193f59;
+}
+
+.preference small {
+    display: block;
+    color: #7c8992;
+    margin-top: 5px;
+    line-height: 1.5;
+}
+
+.terms {
+    margin-top: 35px;
+    padding: 25px;
+    background: #fafbfc;
+    border: 1px solid #e4e8eb;
+}
+
+.terms h3 {
+    color: #19364b;
+    font-size: 16px;
+    margin-top: 25px;
+}
+
+.terms p {
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.acceptance {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 30px;
+    padding: 20px;
+    background: #f1f4f6;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.acceptance input {
+    margin-top: 4px;
+    width: 18px;
+    height: 18px;
+    accent-color: #193f59;
+}
+
+@media (max-width: 600px) {
+    header {
+        min-height: 65px;
+        padding: 0 22px;
+    }
+
+    main {
+        margin: 25px 14px;
+        padding: 28px 23px;
+    }
+
+    h2 { font-size: 24px; }
+
+    .timer {
+        font-size: 11px;
+        gap: 10px;
+    }
+
+    #tempo { font-size: 15px; }
+
+    .modal { padding: 25px 21px; }
+
+    .modal-buttons {
+        flex-direction: column;
+    }
+
+    .modal-buttons button { width: 100%; }
+}
+
+/* Verifiche fotografiche */
+.captcha-box { max-width: 570px; margin: 15px auto; }
+.captcha-label { font-size: 12px; letter-spacing: 1.5px; color: #668092; margin-bottom: 20px; }
+.captcha-instruction { background: #f1f4f6; padding: 17px; font-size: 16px; font-weight: 600; color: #263746; margin: 25px 0 12px; }
+.captcha-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 5px; }
+.captcha-tile { position: relative; aspect-ratio: 1 / 1; overflow: hidden; cursor: pointer; border: 3px solid transparent; background: #e5e9ec; padding: 0; margin: 0; }
+.captcha-tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.captcha-tile.selected { border-color: #27749c; }
+.captcha-tile.selected::after { content: "✓"; position: absolute; top: 7px; right: 7px; width: 25px; height: 25px; background: #27749c; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+.captcha-feedback { min-height: 35px; font-size: 14px; margin-top: 18px; }
+.captcha-success { text-align: center; padding: 45px 10px; }
+.success-symbol { width: 55px; height: 55px; border-radius: 50%; background: #267a49; color: white; font-size: 32px; line-height: 55px; margin: 0 auto 25px; }
+.spinner { width: 45px; height: 45px; border: 4px solid #e1e8ed; border-top: 4px solid #193f59; border-radius: 50%; animation: captchaSpin 1s linear infinite; margin: 0 auto 30px; }
+.small-note { font-size: 13px; color: #89949d; margin-top: 30px; }
+@keyframes captchaSpin { to { transform: rotate(360deg); } }
+@media (max-width: 600px) { .captcha-box { width: 100%; } .captcha-instruction { font-size: 14px; } }
+
+
+.error-symbol {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: #a33b35;
+    color: #fff;
+    font-size: 34px;
+    line-height: 55px;
+    font-weight: 600;
+    margin: 0 auto 25px;
+}
+.error-wait {
+    margin-top: 35px;
+    padding-top: 20px;
+    border-top: 1px solid #e1e6ea;
+}
+
+
+.support-chat {
+    margin: 30px auto 0;
+    max-width: 560px;
+    border: 1px solid #dce3e8;
+    background: #fbfcfd;
+    text-align: left;
+}
+.support-chat-heading {
+    padding: 15px 18px;
+    background: #19364b;
+    color: white;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+.support-status {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #78bd8d;
+    margin-right: 8px;
+}
+.support-messages {
+    min-height: 135px;
+    max-height: 260px;
+    overflow-y: auto;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.support-message {
+    max-width: 88%;
+    padding: 12px 14px;
+    font-size: 14px;
+    line-height: 1.6;
+    border-radius: 3px;
+}
+.support-agent {
+    align-self: flex-start;
+    background: #edf1f4;
+    color: #354653;
+}
+.support-user {
+    align-self: flex-end;
+    background: #193f59;
+    color: white;
+}
+.support-compose {
+    display: flex;
+    gap: 8px;
+    padding: 12px;
+    border-top: 1px solid #e1e6ea;
+}
+.support-compose input {
+    flex: 1;
+    min-width: 0;
+    border: 1px solid #d5dde3;
+    padding: 12px;
+    font: inherit;
+    font-size: 14px;
+}
+.support-compose button {
+    margin: 0;
+    padding: 12px 16px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>ESPERIENZA D'ARTE DIGITALE</h1>
+</header>
+
+<!-- CONTATORE SEMPRE VISIBILE -->
+<main>
+
+    <div class="timer">
+        <span>Tempo di permanenza sul sito</span>
+        <span id="tempo">00:00:00</span>
+    </div>
+
+    <!-- SCHERMATA INIZIALE -->
+    <section id="inizio">
+        <h2>La tua esperienza artistica sta per iniziare.</h2>
+
+        <p>Grazie per aver scansionato il QR Code!</p>
+
+        <p>
+            Ti invitiamo a scoprire un nuovo modo di avvicinarti
+            all’arte, attraverso le possibilità offerte da un
+            mondo sempre più digitale. Inserisci la tua email e
+            l'artista ti invierà una copia dell'opera in digitale.
+        </p>
+
+        <div style="margin: 22px 0; max-width: 440px;">
+            <label for="emailVisitatore" style="display:block; margin-bottom:8px; font-weight:600;">
+                Indirizzo email
+            </label>
+            <input
+                type="text"
+                id="emailVisitatore"
+                required
+                required
+                name="emailVisitatore"
+                autocomplete="email"
+                placeholder="nome@esempio.it"
+                style="box-sizing:border-box; width:100%; padding:13px 14px; border:1px solid #cbd5dc; border-radius:6px; font:inherit;"
+            >
+            <p style="font-size:12px; color:#687985; margin-top:8px;">
+                L'indirizzo email è obbligatorio e sarà utilizzato esclusivamente per inviarti la copia digitale dell'opera.
+            </p>
+        </div>
+
+        <p>Per accedere all’opera, clicca qui.</p>
+        <p id="erroreEmail" class="hidden" style="color:#a33; font-size:13px;" role="alert"></p>
+
+        <button onclick="continuaDallaPrimaSchermata()">
+            Accedi all'opera →
+        </button>
+    </section>
+
+    <!-- SCHERMATA TERMINI E CONDIZIONI -->
+    
+
+<section id="termini" class="hidden">
+
+
+    <div style="font-size:12px; letter-spacing:1.5px; color:#668092;">
+        DOCUMENTAZIONE DEL SERVIZIO
+    </div>
+
+    <h2>DICHIARAZIONE DI ACCESSO E PRESA VISIONE</h2>
+
+    <div class="terms">
+
+        <h3>Premessa</h3>
+
+        <p>
+            L'accesso all'opera è un'esperienza privata, individuale e subordinata alla lettura e all'accettazione integrale dei presenti termini e condizioni.
+        </p>
+
+        <p>
+            L'utente è tenuto a prendere visione degli impegni qui riportati e a dichiarare espressamente la propria disponibilità a rispettarli durante l'intero percorso di accesso.
+        </p>
+
+        <p>
+            La richiesta di fruizione dell'opera costituisce una manifestazione di interesse nei confronti del contenuto artistico e comporta l'assunzione di una serie di impegni personali, tecnici e temporali, necessari al completamento dell'esperienza.
+        </p>
+
+
+        <h3>Art. 1 — Dichiarazione di interesse nei confronti dell'opera</h3>
+
+        <p>
+            Dichiaro formalmente di voler accedere all'opera resa disponibile attraverso il QR Code precedentemente scansionato.
+        </p>
+
+        <p>
+            Dichiaro di essere consapevole che la fruizione dell'opera è subordinata al completamento delle procedure previste dalla piattaforma e che ciascuna operazione richiesta costituisce parte integrante del percorso di accesso.
+        </p>
+
+        <p>
+            Confermo che il mio obiettivo è raggiungere la visualizzazione dell'opera e che, a tal fine, sono disposto a seguire le indicazioni fornite dal sistema, anche qualora queste comportino ulteriori passaggi rispetto a quelli inizialmente previsti.
+        </p>
+
+        <p>
+            Dichiaro che il mio interesse nei confronti dell'opera è tale da giustificare l'impegno necessario al suo raggiungimento e riconosco che la possibilità di visionarla rappresenta la finalità ultima dell'intera procedura.
+        </p>
+
+
+        <h3>Art. 2 — Disponibilità e impegno temporale</h3>
+
+        <p>
+            Dichiaro di disporre del tempo necessario al completamento della procedura di accesso.
+        </p>
+
+        <p>
+            Qualora il tempo attualmente a mia disposizione non dovesse risultare sufficiente, dichiaro di essere disposto a individuarne altro, organizzando le mie attività personali al fine di garantire la prosecuzione dell'esperienza.
+        </p>
+
+        <p>
+            Riconosco che il tempo costituisce una risorsa fondamentale e che la sua destinazione all'esperienza artistica rappresenta una forma di partecipazione alla stessa.
+        </p>
+
+        <p>
+            Dichiaro di riconoscere il tempo, l'attenzione e le risorse che l'artista ha impiegato nella progettazione e nella realizzazione dell'opera. In considerazione di tale investimento, manifesto la mia disponibilità a dedicare a mia volta una parte del mio tempo alla sua fruizione.
+        </p>
+
+        <p>
+            Accetto che la durata della procedura non sia preventivamente quantificabile e dichiaro di non considerare il tempo eventualmente impiegato come un impedimento al raggiungimento dell'obiettivo.
+        </p>
+
+        <p>
+            Con la presente, riconosco che il mio tempo è a disposizione dell'esperienza artistica e che la sua disponibilità costituisce un requisito fondamentale per la prosecuzione.
+        </p>
+
+
+        <h3>Art. 3 — Disponibilità tecnica e requisiti di accesso</h3>
+
+        <p>
+            Dichiaro di disporre di un dispositivo idoneo alla navigazione e di una connessione internet sufficientemente stabile per consentire il completamento delle operazioni richieste.
+        </p>
+
+        <p>
+            Qualora non disponessi temporaneamente di una connessione adeguata, dichiaro di impegnarmi a individuare una soluzione alternativa che mi consenta di proseguire la procedura.
+        </p>
+
+        <p>
+            Mi impegno a seguire scrupolosamente le istruzioni fornite dalla piattaforma, a completare le verifiche richieste e a ripetere le operazioni qualora il sistema non dovesse riconoscerne il corretto svolgimento.
+        </p>
+
+        <p>
+            Dichiaro di essere consapevole che eventuali incompatibilità tecniche, interruzioni della connessione, aggiornamenti del dispositivo o difficoltà di navigazione potrebbero rendere necessario il ripristino di alcune operazioni.
+        </p>
+
+        <p>
+            Riconosco la necessità di disporre degli strumenti tecnici richiesti e confermo la mia volontà di adoperarmi affinché eventuali difficoltà non compromettano il raggiungimento dell'obiettivo.
+        </p>
+
+
+        <h3>Art. 4 — Obbligo di perseveranza e continuità</h3>
+
+        <p>
+            Dichiaro di essere in possesso della necessaria perseveranza e di essere disposto a proseguire il percorso anche in presenza di eventuali interruzioni, attese, errori tecnici, verifiche supplementari o richieste di aggiornamento.
+        </p>
+
+        <p>
+            Riconosco che il sistema mi prospetta la possibilità di accedere all'opera e, sulla base di tale aspettativa, confermo la mia intenzione di portare a termine tutte le operazioni necessarie.
+        </p>
+
+        <p>
+            Mi impegno a non interrompere prematuramente la procedura e a mantenere un atteggiamento collaborativo nei confronti delle indicazioni fornite dalla piattaforma.
+        </p>
+
+        <p>
+            Dichiaro di essere consapevole che il completamento di una singola operazione non garantisce necessariamente l'immediata conclusione del percorso e che potrebbero rendersi necessarie ulteriori verifiche.
+        </p>
+
+        <p>
+            Riconosco che il tempo dedicato alle procedure costituisce una condizione necessaria per la prosecuzione dell'esperienza e dichiaro di accettare le eventuali conseguenze derivanti dalla durata e dalla complessità delle operazioni richieste.
+        </p>
+
+
+        <h3>Art. 5 — Disponibilità alla collaborazione</h3>
+
+        <p>
+            Dichiaro la mia disponibilità a collaborare attivamente con il sistema durante tutte le fasi di accesso.
+        </p>
+
+        <p>
+            Mi impegno a fornire le conferme richieste, a consultare le comunicazioni visualizzate e a prendere visione di eventuali ulteriori documenti necessari alla prosecuzione.
+        </p>
+
+        <p>
+            Riconosco che la corretta esecuzione delle procedure dipende anche dalla mia partecipazione e mi assumo l'impegno di prestare la necessaria attenzione a ogni indicazione presentata.
+        </p>
+
+        <p>
+            Dichiaro di essere disposto a dedicare ulteriori risorse, attenzione e tempo qualora ciò si rendesse necessario per il completamento dell'esperienza.
+        </p>
+
+
+        <h3>Art. 6 — Consapevolezza dell'impegno assunto</h3>
+
+        <p>
+            Confermo di aver compreso la natura delle procedure previste e di essere consapevole che l'accesso all'opera potrebbe richiedere un impegno temporale superiore alle mie aspettative iniziali.
+        </p>
+
+        <p>
+            Dichiaro di non aver assunto la decisione di accedere all'opera con superficialità e riconosco che la mia richiesta comporta una manifestazione di disponibilità a proseguire lungo il percorso predisposto.
+        </p>
+
+        <p>
+            Ribadisco che il mio interesse nei confronti dell'opera costituisce la motivazione principale della mia permanenza sulla piattaforma.
+        </p>
+
+
+        <h3>Art. 7 — Dichiarazione finale e accettazione</h3>
+
+        <p>
+            Con la presente, confermo la mia volontà di accedere all'opera e dichiaro di aver preso visione degli impegni sopra elencati.
+        </p>
+
+        <p>
+            Accetto integralmente le condizioni relative alla disponibilità temporale, alla collaborazione tecnica, alla continuità della navigazione e alla perseveranza necessaria per il completamento della procedura.
+        </p>
+
+        <p>
+            Dichiaro di essere disposto a dedicare tutto il tempo necessario al raggiungimento dell'obiettivo iniziale, riconoscendo il valore dell'esperienza artistica e l'investimento che la sua realizzazione ha comportato.
+        </p>
+
+        <p>
+            Confermo, infine, la mia intenzione di proseguire fino al completamento delle operazioni previste dalla piattaforma.
+        </p>
+
+    </div>
+
+
+    <div style="margin-top:35px; border-top:1px solid #e1e5e8; padding-top:25px;">
+
+        <h3>DICHIARAZIONE DI ACCETTAZIONE</h3>
+
+        <p>
+            Dichiaro di aver letto, compreso e accettato integralmente i termini e le condizioni sopra riportati, impegnandomi a dedicare tutto il tempo necessario al completamento della procedura di accesso all'opera.
+        </p>
+
+        <label class="acceptance">
+            <input type="checkbox" id="accettazione">
+            <span>
+                Dichiaro di aver letto, compreso e accettato integralmente la presente dichiarazione.
+            </span>
+        </label>
+
+        <p id="erroreTermini" style="color:#a33; display:none;">
+            Per proseguire è necessario confermare la presa visione.
+        </p>
+
+        <button onclick="confermaTermini()">
+            DICHIARO DI VOLER PROCEDERE →
+        </button>
+
+    </div>
+
+</section>
+
+
+    <!-- SECONDA CONFERMA -->
+    <section id="secondaConferma" class="hidden">
+        <h2>Conferma la tua richiesta</h2>
+
+        <p>
+            La presa visione dei termini e delle condizioni
+            è stata registrata.
+        </p>
+
+        <div class="notice">
+            Per completare la procedura è richiesta un'ulteriore
+            conferma da parte dell'utente.
+        </div>
+
+        <button onclick="confermaFinale()">
+            Confermo e continuo →
+        </button>
+    </section>
+
+    
+
+<!-- SCHERMATA DI ELABORAZIONE PRIMA DEL CAPTCHA -->
+<section id="elaborazionePreCaptcha" class="hidden">
+    <div class="captcha-success">
+        <div class="spinner"></div>
+        <div class="captcha-label">VERIFICA DELLA RICHIESTA</div>
+        <h2>Richiesta in elaborazione</h2>
+        <p>Verifica completata. La richiesta è stata inoltrata, è necessario ancora un po' di tempo</p>
+        <p class="small-note">Attendere il completamento dell'operazione.</p>
+    </div>
+</section>
+
+<!-- CAPTCHA 1: BICICLETTE -->
+<section id="passaggioSuccessivo" class="hidden">
+
+    <div class="captcha-box">
+        <div class="captcha-label">VERIFICA DI SICUREZZA</div>
+        <h2>Conferma di essere una persona fisica</h2>
+        <p>Per garantire la sicurezza della piattaforma, completa la seguente verifica.</p>
+
+        <div class="captcha-instruction">
+            Seleziona tutte le immagini che contengono biciclette.
+        </div>
+
+        <div id="grigliaBici" class="captcha-grid"></div>
+
+        <p id="feedbackBici" class="captcha-feedback"></p>
+
+        <button id="verificaBici" onclick="verificaCaptcha('bici')">
+            VERIFICA
+        </button>
+
+        <button id="riprovaBici" class="hidden" onclick="generaCaptcha('bici')">
+            RIPROVA
+        </button>
+
+        <button id="continuaBici" class="hidden" onclick="continuaOrologi()">
+            CONTINUA →
+        </button>
+    </div>
+
+</section>
+
+
+<!-- CAPTCHA 2: OROLOGI -->
+<section id="captchaOrologi" class="hidden">
+
+    <div class="captcha-box">
+        <div class="captcha-label">VERIFICA AGGIUNTIVA</div>
+        <h2>Verifica supplementare richiesta</h2>
+        <p>Per completare la procedura, effettua un'ulteriore verifica.</p>
+
+        <div class="captcha-instruction">
+            Seleziona tutte le immagini che contengono orologi.
+        </div>
+
+        <div id="grigliaOrologi" class="captcha-grid"></div>
+
+        <p id="feedbackOrologi" class="captcha-feedback"></p>
+
+        <button id="verificaOrologi" onclick="verificaCaptcha('orologi')">
+            VERIFICA
+        </button>
+
+        <button id="riprovaOrologi" class="hidden" onclick="generaCaptcha('orologi')">
+            RIPROVA
+        </button>
+
+        <button id="continuaOrologi" class="hidden" onclick="mostraSchermata('captchaCompletato')">
+            CONTINUA →
+        </button>
+    </div>
+
+</section>
+
+
+<!-- CAPTCHA COMPLETATO -->
+<section id="captchaCompletato" class="hidden">
+
+    <div class="captcha-success">
+        <div class="success-symbol">✓</div>
+
+        <h2>Verifica completata.</h2>
+
+        <p>
+            Verifica completata. La richiesta è stata inoltrata, è necessario ancora un po' di tempo
+        </p>
+
+        <button onclick="continuaCaricamento()">
+            CONTINUA →
+        </button>
+    </div>
+
+</section>
+
+
+<!-- CARICAMENTO SUCCESSIVO -->
+<section id="caricamentoFinale" class="hidden">
+
+    <div class="captcha-success">
+
+        <div class="spinner"></div>
+
+        <div class="captcha-label">ELABORAZIONE IN CORSO</div>
+
+        <h2>Richiesta in elaborazione</h2>
+
+        <p>
+            La tua richiesta è in elaborazione.
+            Il tempo necessario non dipende da noi.
+        </p>
+
+        <p class="small-note">
+            Attendere il completamento dell'operazione.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- PAGINA DI ERRORE -->
+<section id="paginaErrore" class="hidden">
+    <div class="captcha-success">
+        <div class="captcha-label">AVVISO DI SISTEMA</div>
+        <div class="error-symbol">!</div>
+        <h2>Si è verificato un problema</h2>
+        <p>
+            Ci scusiamo per il disagio. Il problema non è stato risolto
+            perché non abbiamo avuto tempo. Aspetta un attimo e
+            provvederemo a risolverlo.
+        </p>
+        <div id="attesaErrore" class="error-wait">
+            <div class="spinner"></div>
+            <p class="small-note">Attendere il completamento dell'operazione.</p>
+            <p class="small-note">Tempo residuo: <strong id="contoAllaRovescia">5</strong> secondi</p>
+        </div>
+        <p id="attesaConclusa" class="small-note hidden">
+            La procedura è ancora in corso. Grazie per la pazienza.
+        </p>
+
+        <button id="apriAssistenza" class="hidden" onclick="apriChatAssistenza()">
+            CONTATTA L'ASSISTENZA
+        </button>
+
+        <div id="chatAssistenza" class="support-chat hidden">
+            <div class="support-chat-heading">
+                <span class="support-status"></span>
+                ASSISTENZA CLIENTI
+            </div>
+            <div id="messaggiChat" class="support-messages" aria-live="polite">
+                <div class="support-message support-agent">
+                    Benvenuto nell'assistenza. Come possiamo aiutarti?
+                </div>
+            </div>
+            <form class="support-compose" onsubmit="inviaMessaggioAssistenza(event)">
+                <input id="testoAssistenza" type="text" placeholder="Scrivi il tuo messaggio..." autocomplete="off" aria-label="Scrivi il tuo messaggio">
+                <button type="submit">INVIA</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- POP-UP E PERCORSO DI USCITA DALL'ASSISTENZA -->
+<div id="percorsoAssistenza" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="titoloPercorso">
+    <div class="modal">
+        <div id="passoProblemaTecnico">
+            <div class="captcha-label">AVVISO DI SISTEMA</div>
+            <h2 id="titoloPercorso">Problema tecnico</h2>
+            <p>Si è verificato un errore durante la procedura. Clicca qui per risolvere.</p>
+            <div class="modal-buttons">
+                <button onclick="mostraDomandaContinuazione()">CLICCA QUI PER RISOLVERE</button>
+            </div>
+        </div>
+
+        <div id="passoDomandaContinuazione" class="hidden">
+            <div class="captcha-label">STATO DELLA RICHIESTA</div>
+            <h2>Vuoi continuare?</h2>
+            <p id="testoTempoPerso"></p>
+            <div class="modal-buttons">
+                <button onclick="mostraProblemaRisolto()">SÌ, CONTINUO</button>
+                <button class="secondary" onclick="mostraConfermaUscita()">NO, ESCO</button>
+            </div>
+        </div>
+
+        <div id="passoConfermaUscita" class="hidden">
+            <div class="captcha-label">CONFERMA USCITA</div>
+            <h2>Non hai ancora visualizzato l'opera. Sei sicuro di voler uscire?</h2>
+            <div class="modal-buttons">
+                <button onclick="mostraViolazioneTermini()">NON HO TEMPO DA PERDERE</button>
+                <button class="secondary" onclick="mostraProblemaRisolto()">HO ALTRO TEMPO</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SCHERMATA MOSTRATA A CHI DECIDE DI USCIRE -->
+<section id="uscitaFinale" class="hidden">
+    <div class="captcha-success">
+        <div class="captcha-label">PROCEDURA INTERROTTA</div>
+        <h2>Peccato, ancora un po' di tempo e avresti visualizzato l'opera.</h2>
+    </div>
+</section>
+
+<!-- SCHERMATA DI FALSA RISOLUZIONE: IL SEGUITO VERRÀ DEFINITO -->
+<section id="problemaRisolto" class="hidden">
+    <div class="captcha-success">
+        <div class="success-symbol">✓</div>
+        <div class="captcha-label">AGGIORNAMENTO DELLA RICHIESTA</div>
+        <h2>PROBLEMA RISOLTO!</h2>
+        <p>Tra poco avrai accesso all'opera, ancora qualche secondo!</p>
+        <div id="caricamentoProblemaRisolto">
+            <div class="spinner"></div>
+            <p class="small-note">Attendere il completamento dell'operazione.</p>
+        </div>
+        <button id="vaiAvantiSalaAttesa" class="hidden" onclick="mostraSalaAttesa()">
+            VAI AVANTI →
+        </button>
+    </div>
+</section>
+
+<!-- SALA D'ATTESA VIRTUALE -->
+<section id="salaAttesaVirtuale" class="hidden">
+    <div class="captcha-success">
+        <div class="captcha-label">GESTIONE DELLE RICHIESTE</div>
+        <h2>Sala d'attesa virtuale</h2>
+        <p>Sei il numero <strong id="numeroCoda">1.482</strong> in coda. La tua attesa è importante per noi.</p>
+        <p class="small-note">Tempo di attesa stimato: breve.</p>
+        <div class="modal-buttons" style="justify-content:center;">
+            <button onclick="attendiInCoda()">ATTENDO</button>
+            <button class="secondary" onclick="nonHoAltroTempo()">NON HO ALTRO TEMPO</button>
+        </div>
+    </div>
+</section>
+
+<!-- DICHIARAZIONE DI VIOLAZIONE DEI TERMINI -->
+<section id="violazioneTermini" class="hidden">
+    <div class="captcha-label">SEGNALAZIONE DI SISTEMA</div>
+    <h2>STAI VIOLANDO I TERMINI E CONDIZIONI PRECEDENTEMENTE ACCETTATI</h2>
+    <div class="terms">
+        <h3>Art. 4 — Obbligo di perseveranza e continuità</h3>
+        <p>Dichiaro di essere in possesso della necessaria perseveranza e di essere disposto a proseguire il percorso anche in presenza di eventuali interruzioni, attese, errori tecnici, verifiche supplementari o richieste di aggiornamento.</p>
+        <p>Riconosco che il sistema mi prospetta la possibilità di accedere all'opera e, sulla base di tale aspettativa, confermo la mia intenzione di portare a termine tutte le operazioni necessarie.</p>
+        <p>Mi impegno a non interrompere prematuramente la procedura e a mantenere un atteggiamento collaborativo nei confronti delle indicazioni fornite dalla piattaforma.</p>
+        <p>Dichiaro di essere consapevole che il completamento di una singola operazione non garantisce necessariamente l'immediata conclusione del percorso e che potrebbero rendersi necessarie ulteriori verifiche.</p>
+        <p>Riconosco che il tempo dedicato alle procedure costituisce una condizione necessaria per la prosecuzione dell'esperienza e dichiaro di accettare le eventuali conseguenze derivanti dalla durata e dalla complessità delle operazioni richieste.</p>
+    </div>
+    <h2 style="font-size:21px;">SEI DAVVERO SICURO DI VOLER USCIRE?</h2>
+    <div class="modal-buttons">
+        <button onclick="mostraSchermataUscita()">SICURISSIMO</button>
+        <button class="secondary" onclick="mostraProblemaRisolto()">HO ALTRO TEMPO</button>
+    </div>
+</section>
+
+<!-- POP-UP SESSIONE SCADUTA -->
+<div id="popupSessioneScaduta" class="modal-overlay hidden" role="dialog" aria-modal="true">
+    <div class="modal">
+        <div class="captcha-label">AVVISO DI SISTEMA</div>
+        <h2>Sessione scaduta</h2>
+        <p>La tua sessione è scaduta per motivi di tempo. Come desideri procedere?</p>
+        <div class="modal-buttons">
+            <button onclick="riprovaProcedura()">RIPROVA</button>
+            <button class="secondary" onclick="nonHoAltroTempo()">NON HO TEMPO DA PERDERE</button>
+        </div>
+    </div>
+</div>
+
+<style>
+.captcha-box {
+    max-width: 570px;
+    margin: 15px auto;
+}
+
+.captcha-label {
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    color: #668092;
+    margin-bottom: 20px;
+}
+
+.captcha-instruction {
+    background: #f1f4f6;
+    padding: 17px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #263746;
+    margin-top: 25px;
+    margin-bottom: 12px;
+}
+
+.captcha-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+}
+
+.captcha-tile {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    cursor: pointer;
+    border: 3px solid transparent;
+    background: #e5e9ec;
+}
+
+.captcha-tile {
+    width: 100%;
+    padding: 8px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #263746;
+    background: linear-gradient(145deg, #edf2f5, #dce5eb);
+}
+.captcha-art {
+    font-size: clamp(42px, 7vw, 68px);
+    line-height: 1.15;
+    filter: drop-shadow(0 3px 2px rgba(0,0,0,.12));
+}
+.captcha-caption {
+    font-size: 11px;
+    letter-spacing: .4px;
+    color: #596873;
+    text-transform: uppercase;
+}
+.captcha-tile:focus-visible {
+    outline: 3px solid #193f59;
+    outline-offset: 2px;
+}
+
+.captcha-tile.selected {
+    border-color: #27749c;
+}
+
+.captcha-tile.selected::after {
+    content: "✓";
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    width: 25px;
+    height: 25px;
+    background: #27749c;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.captcha-feedback {
+    min-height: 35px;
+    font-size: 14px;
+    margin-top: 18px;
+}
+
+.captcha-success {
+    text-align: center;
+    padding: 45px 10px;
+}
+
+.success-symbol {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: #267a49;
+    color: white;
+    font-size: 32px;
+    line-height: 55px;
+    margin: 0 auto 25px;
+}
+
+.spinner {
+    width: 45px;
+    height: 45px;
+    border: 4px solid #e1e8ed;
+    border-top: 4px solid #193f59;
+    border-radius: 50%;
+    animation: captchaSpin 1s linear infinite;
+    margin: 0 auto 30px;
+}
+
+.small-note {
+    font-size: 13px;
+    color: #89949d;
+    margin-top: 30px;
+}
+
+@keyframes captchaSpin {
+    to { transform: rotate(360deg); }
+}
+
+@media (max-width: 600px) {
+    .captcha-box {
+        width: 100%;
+    }
+
+    .captcha-instruction {
+        font-size: 14px;
+    }
+}
+</style>
+
+
+
+</main>
+
+<footer>
+    Esperienza digitale — Accesso all'opera
+</footer>
+
+<!-- POPUP COOKIE -->
+<div id="cookiePopup" class="modal-overlay hidden">
+    <div class="modal">
+
+        <div style="font-size:12px; letter-spacing:1.5px; color:#668092;">
+            GESTIONE DELLA NAVIGAZIONE
+        </div>
+
+        <h2>Prima di continuare</h2>
+
+        <p>
+            Per offrirti un'esperienza di navigazione completa,
+            questo sito utilizza cookie e tecnologie simili.
+        </p>
+
+        <p>
+            Alcuni sono necessari al funzionamento del servizio,
+            mentre altri ci consentono di analizzare le modalità
+            di navigazione e migliorare la tua esperienza.
+        </p>
+
+        <p>
+            Ti invitiamo a consultare la nostra informativa
+            sulla privacy e sui cookie.
+        </p>
+
+        <div id="cookieErrore" class="notice hidden">
+            Per proseguire è necessario aggiornare le preferenze
+            relative ai cookie.
+            <br>
+            Ti invitiamo a personalizzare le tue impostazioni.
+        </div>
+
+        <div class="modal-buttons" id="cookiePulsanti">
+            <button onclick="accettaCookie()">Accetta tutti</button>
+
+            <button class="secondary" onclick="rifiutaCookie()">
+                Rifiuta tutti
+            </button>
+
+            <button class="text-button" onclick="personalizzaCookie()">
+                Personalizza le preferenze
+            </button>
+        </div>
+
+        <div id="preferenze" class="hidden">
+
+            <div class="preference">
+                <span>
+                    Cookie necessari
+                    <small>Indispensabili per il funzionamento del servizio.</small>
+                </span>
+                <input type="checkbox" checked disabled>
+            </div>
+
+            <div class="preference">
+                <span>
+                    Cookie analitici
+                    <small>Consentono di analizzare la navigazione.</small>
+                </span>
+                <input type="checkbox" id="analitici">
+            </div>
+
+            <div class="preference">
+                <span>
+                    Cookie di personalizzazione
+                    <small>Permettono di personalizzare l'esperienza.</small>
+                </span>
+                <input type="checkbox" id="personalizzazione">
+            </div>
+
+            <div class="modal-buttons">
+                <button onclick="salvaPreferenze()">
+                    Salva le preferenze
+                </button>
+                <button class="secondary" onclick="tornaCookie()">
+                    Indietro
+                </button>
+            </div>
+
+            <p id="messaggioPreferenze" class="hidden">
+                Le preferenze sono state aggiornate.
+                Per completare la procedura è necessaria
+                un'ulteriore conferma.
+            </p>
+
+            <button id="confermaPreferenze" class="hidden"
+                onclick="vaiAiTermini()">
+                Conferma e continua →
+            </button>
+
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+// CONTATORE: continua anche quando cambia la schermata.
+let inizio = sessionStorage.getItem("inizioVisita");
+if (!inizio) {
+    inizio = Date.now();
+    sessionStorage.setItem("inizioVisita", inizio);
+}
+function aggiornaTempo() {
+    const trascorso = Math.floor((Date.now() - Number(inizio)) / 1000);
+    const ore = Math.floor(trascorso / 3600);
+    const minuti = Math.floor((trascorso % 3600) / 60);
+    const secondi = trascorso % 60;
+    document.getElementById("tempo").textContent =
+        String(ore).padStart(2, "0") + ":" +
+        String(minuti).padStart(2, "0") + ":" +
+        String(secondi).padStart(2, "0");
+}
+aggiornaTempo();
+setInterval(aggiornaTempo, 1000);
+
+// GESTIONE DELLE SCHERMATE: una sola funzione, con tutti gli ID esistenti.
+function mostraSchermata(id) {
+    const schermate = [
+        "inizio", "termini", "secondaConferma",
+        "elaborazionePreCaptcha", "passaggioSuccessivo",
+        "captchaOrologi", "captchaCompletato", "caricamentoFinale", "paginaErrore",
+        "uscitaFinale", "problemaRisolto", "salaAttesaVirtuale", "violazioneTermini"
+    ];
+    schermate.forEach(nome => {
+        const elemento = document.getElementById(nome);
+        if (elemento) elemento.classList.add("hidden");
+    });
+    const destinazione = document.getElementById(id);
+    if (destinazione) {
+        destinazione.classList.remove("hidden");
+        window.scrollTo(0, 0);
+    }
+}
+
+// COOKIE E PREFERENZE.
+function apriCookie() {
+    document.getElementById("cookiePopup").classList.remove("hidden");
+}
+function accettaCookie() { vaiAiTermini(); }
+function rifiutaCookie() {
+    document.getElementById("cookieErrore").classList.remove("hidden");
+    document.getElementById("cookieErrore").innerHTML =
+        "Hai rifiutato i cookie. Per proseguire è necessario aggiornare le preferenze relative alla navigazione.";
+    document.getElementById("cookiePulsanti").innerHTML =
+        '<button onclick="personalizzaCookie()">Aggiorna preferenze</button>';
+    document.getElementById("cookiePulsanti").classList.remove("hidden");
+}
+function personalizzaCookie() {
+    document.getElementById("cookiePulsanti").classList.add("hidden");
+    document.getElementById("cookieErrore").classList.add("hidden");
+    document.getElementById("preferenze").classList.remove("hidden");
+}
+function tornaCookie() {
+    document.getElementById("preferenze").classList.add("hidden");
+    document.getElementById("cookieErrore").classList.add("hidden");
+    document.getElementById("cookiePulsanti").classList.remove("hidden");
+}
+function salvaPreferenze() {
+    document.getElementById("analitici").disabled = true;
+    document.getElementById("personalizzazione").disabled = true;
+    document.getElementById("messaggioPreferenze").classList.remove("hidden");
+    document.getElementById("confermaPreferenze").classList.remove("hidden");
+}
+function vaiAiTermini() {
+    document.getElementById("cookiePopup").classList.add("hidden");
+    document.getElementById("preferenze").classList.add("hidden");
+    mostraSchermata("termini");
+}
+
+// TERMINI E SECONDA CONFERMA.
+function confermaTermini() {
+    const checkbox = document.getElementById("accettazione");
+    if (!checkbox.checked) {
+        document.getElementById("erroreTermini").style.display = "block";
+        return;
+    }
+    document.getElementById("erroreTermini").style.display = "none";
+    mostraSchermata("secondaConferma");
+}
+
+// Dopo la seconda conferma: schermata di attesa per 5 secondi, poi biciclette.
+function confermaFinale() {
+    mostraSchermata("elaborazionePreCaptcha");
+    window.setTimeout(() => {
+        generaCaptcha("bici");
+        mostraSchermata("passaggioSuccessivo");
+    }, 5000);
+}
+
+// CAPTCHA illustrati: nessuna foto esterna, quindi non dipendono dalla connessione.
+const contenutiCaptcha = {
+    bici: [
+        {icona:"🚲", titolo:"Bicicletta", corretta:true},
+        {icona:"🚌", titolo:"Autobus", corretta:false},
+        {icona:"🌳", titolo:"Albero", corretta:false},
+        {icona:"🚴", titolo:"Ciclista", corretta:true},
+        {icona:"🏠", titolo:"Casa", corretta:false},
+        {icona:"🚗", titolo:"Automobile", corretta:false},
+        {icona:"🚲", titolo:"Bicicletta", corretta:true},
+        {icona:"🌻", titolo:"Fiore", corretta:false},
+        {icona:"🕒", titolo:"Orologio", corretta:false}
+    ],
+    orologi: [
+        {icona:"🕰️", titolo:"Orologio", corretta:true},
+        {icona:"🚲", titolo:"Bicicletta", corretta:false},
+        {icona:"🌳", titolo:"Albero", corretta:false},
+        {icona:"⌚", titolo:"Orologio", corretta:true},
+        {icona:"🏠", titolo:"Casa", corretta:false},
+        {icona:"🚗", titolo:"Automobile", corretta:false},
+        {icona:"⏰", titolo:"Orologio", corretta:true},
+        {icona:"🌻", titolo:"Fiore", corretta:false},
+        {icona:"🚌", titolo:"Autobus", corretta:false}
+    ]
+};
+
+const selezioniCaptcha = { bici: new Set(), orologi: new Set() };
+const griglieCaptcha = { bici: [], orologi: [] };
+
+function generaCaptcha(tipo) {
+    const suffisso = tipo === "bici" ? "Bici" : "Orologi";
+    const griglia = document.getElementById(tipo === "bici" ? "grigliaBici" : "grigliaOrologi");
+    selezioniCaptcha[tipo] = new Set();
+    griglia.innerHTML = "";
+    griglieCaptcha[tipo] = [...contenutiCaptcha[tipo]].sort(() => Math.random() - 0.5);
+
+    griglieCaptcha[tipo].forEach((elemento, indice) => {
+        const tessera = document.createElement("button");
+        tessera.type = "button";
+        tessera.className = "captcha-tile";
+        tessera.setAttribute("aria-label", "Seleziona immagine " + (indice + 1));
+        tessera.setAttribute("aria-pressed", "false");
+
+        const icona = document.createElement("span");
+        icona.className = "captcha-art";
+        icona.textContent = elemento.icona;
+
+        const didascalia = document.createElement("span");
+        didascalia.className = "captcha-caption";
+        didascalia.textContent = "Immagine " + (indice + 1);
+
+        tessera.appendChild(icona);
+        tessera.appendChild(didascalia);
+        tessera.addEventListener("click", () => {
+            if (selezioniCaptcha[tipo].has(indice)) {
+                selezioniCaptcha[tipo].delete(indice);
+                tessera.classList.remove("selected");
+                tessera.setAttribute("aria-pressed", "false");
+            } else {
+                selezioniCaptcha[tipo].add(indice);
+                tessera.classList.add("selected");
+                tessera.setAttribute("aria-pressed", "true");
+            }
+        });
+        griglia.appendChild(tessera);
+    });
+
+    document.getElementById("feedback" + suffisso).textContent = "";
+    document.getElementById("feedback" + suffisso).style.color = "";
+    document.getElementById("verifica" + suffisso).classList.remove("hidden");
+    document.getElementById("riprova" + suffisso).classList.add("hidden");
+    document.getElementById("continua" + suffisso).classList.add("hidden");
+}
+
+function verificaCaptcha(tipo) {
+    const suffisso = tipo === "bici" ? "Bici" : "Orologi";
+    const feedback = document.getElementById("feedback" + suffisso);
+    const verifica = document.getElementById("verifica" + suffisso);
+    const riprova = document.getElementById("riprova" + suffisso);
+    const continua = document.getElementById("continua" + suffisso);
+    const selezionate = selezioniCaptcha[tipo];
+
+    if (selezionate.size === 0) {
+        feedback.textContent = "Non è stata rilevata alcuna selezione.";
+        feedback.style.color = "#a33";
+        verifica.classList.add("hidden");
+        riprova.classList.remove("hidden");
+        return;
+    }
+
+    const corrette = new Set(
+        griglieCaptcha[tipo]
+            .map((elemento, indice) => elemento.corretta ? indice : -1)
+            .filter(indice => indice !== -1)
+    );
+    const esitoCorretto =
+        selezionate.size === corrette.size &&
+        [...selezionate].every(indice => corrette.has(indice));
+
+    if (!esitoCorretto) {
+        feedback.textContent = "Alcune immagini non sono state identificate correttamente. Riprova.";
+        feedback.style.color = "#a33";
+        verifica.classList.add("hidden");
+        riprova.classList.remove("hidden");
+        return;
+    }
+
+    feedback.style.color = "#267a49";
+    feedback.textContent = tipo === "bici"
+        ? "Verifica completata. È necessaria un'ulteriore elaborazione."
+        : "Verifica completata.";
+    verifica.classList.add("hidden");
+    continua.classList.remove("hidden");
+}
+
+function continuaOrologi() {
+    generaCaptcha("orologi");
+    mostraSchermata("captchaOrologi");
+}
+function continuaCaricamento() {
+    mostraSchermata("paginaErrore");
+
+    const attesa = document.getElementById("attesaErrore");
+    const conclusa = document.getElementById("attesaConclusa");
+    const contatore = document.getElementById("contoAllaRovescia");
+
+    attesa.classList.remove("hidden");
+    conclusa.classList.add("hidden");
+
+    let secondi = 5;
+    contatore.textContent = secondi;
+
+    const intervallo = setInterval(() => {
+        secondi -= 1;
+        contatore.textContent = secondi;
+
+        if (secondi <= 0) {
+            clearInterval(intervallo);
+            attesa.classList.add("hidden");
+            conclusa.classList.remove("hidden");
+            document.getElementById("apriAssistenza").classList.remove("hidden");
+        }
+    }, 1000);
+}
+
+// Prepara la prima griglia solo quando la schermata viene effettivamente mostrata.
+
+// CHATBOT DIMOSTRATIVO: le risposte cambiano ordine a ogni nuova sessione.
+const risposteAssistenzaOriginali = [
+    "La tua attesa è fondamentale per garantire la qualità del servizio.",
+    "Il tempo è denaro. Grazie per averlo investito in questo processo.",
+    "La tua produttività è importante. Per questo abbiamo temporaneamente sospeso la tua produttività.",
+    "Il servizio è gratuito. Il tempo che perdi per utilizzarlo è a carico tuo.",
+    "Sei ancora qui? Il sistema funziona esattamente come previsto.",
+    "La tua richiesta è in elaborazione. Il tempo necessario non dipende da noi."
+];
+let risposteAssistenza = [];
+let indiceRispostaAssistenza = 0;
+let messaggiUtenteAssistenza = 0;
+let timerPopupAssistenza = null;
+let timerProblemaRisolto = null;
+let timerScadenzaSessione = null;
+let timerPopupScaduta = null;
+let popupAssistenzaGiaMostrato = false;
+let numeroCoda = generaNumeroCoda();
+let puntoInterrotto = "salaAttesaVirtuale";
+
+function mescolaRisposteAssistenza() {
+    risposteAssistenza = [...risposteAssistenzaOriginali];
+    for (let i = risposteAssistenza.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [risposteAssistenza[i], risposteAssistenza[j]] = [risposteAssistenza[j], risposteAssistenza[i]];
+    }
+    indiceRispostaAssistenza = 0;
+}
+
+function generaNumeroCoda() {
+    return Math.floor(Math.random() * (2000 - 500 + 1)) + 500;
+}
+
+function aggiornaNumeroCoda() {
+    const elemento = document.getElementById("numeroCoda");
+    if (elemento) elemento.textContent = numeroCoda.toLocaleString("it-IT");
+}
+
+function avviaControlloChatAssistenza() {
+    if (timerPopupAssistenza || popupAssistenzaGiaMostrato) return;
+    // Il pop-up compare dopo quattro risposte oppure dopo 40 secondi, se prima.
+    timerPopupAssistenza = window.setTimeout(mostraPopupProblemaTecnico, 40000);
+}
+
+function mostraPopupProblemaTecnico() {
+    if (popupAssistenzaGiaMostrato) return;
+    popupAssistenzaGiaMostrato = true;
+    if (timerPopupAssistenza) clearTimeout(timerPopupAssistenza);
+    timerPopupAssistenza = null;
+    document.getElementById("percorsoAssistenza").classList.remove("hidden");
+    mostraPassoAssistenza("passoProblemaTecnico");
+}
+
+function apriChatAssistenza() {
+    document.getElementById("chatAssistenza").classList.remove("hidden");
+    document.getElementById("apriAssistenza").classList.add("hidden");
+    document.getElementById("testoAssistenza").focus();
+    avviaControlloChatAssistenza();
+}
+
+function mostraPassoAssistenza(id) {
+    ["passoProblemaTecnico", "passoDomandaContinuazione", "passoConfermaUscita"]
+        .forEach(passo => document.getElementById(passo).classList.add("hidden"));
+    document.getElementById(id).classList.remove("hidden");
+}
+
+function minutiTrascorsi() {
+    const secondi = Math.floor((Date.now() - Number(inizio)) / 1000);
+    const minuti = Math.floor(secondi / 60);
+    if (minuti === 0) return "meno di un minuto";
+    return minuti + (minuti === 1 ? " minuto" : " minuti");
+}
+
+function mostraDomandaContinuazione() {
+    document.getElementById("testoTempoPerso").textContent =
+        "Hai trascorso " + minutiTrascorsi() + " della tua vita cercando di accedere a qualcosa che ti era stato promesso come immediatamente disponibile. Vuoi continuare?";
+    mostraPassoAssistenza("passoDomandaContinuazione");
+}
+
+function mostraConfermaUscita() {
+    mostraPassoAssistenza("passoConfermaUscita");
+}
+
+function chiudiPercorsoAssistenza() {
+    document.getElementById("percorsoAssistenza").classList.add("hidden");
+}
+
+function mostraViolazioneTermini() {
+    chiudiPercorsoAssistenza();
+    mostraSchermata("violazioneTermini");
+}
+
+function mostraSchermataUscita() {
+    chiudiPercorsoAssistenza();
+    mostraSchermata("uscitaFinale");
+}
+
+function mostraProblemaRisolto() {
+    chiudiPercorsoAssistenza();
+    mostraSchermata("problemaRisolto");
+    const caricamento = document.getElementById("caricamentoProblemaRisolto");
+    caricamento.classList.remove("hidden");
+    if (timerProblemaRisolto) clearTimeout(timerProblemaRisolto);
+    const pulsanteAvanti = document.getElementById("vaiAvantiSalaAttesa");
+    pulsanteAvanti.classList.add("hidden");
+    timerProblemaRisolto = window.setTimeout(() => {
+        caricamento.classList.add("hidden");
+        pulsanteAvanti.classList.remove("hidden");
+    }, 5000);
+}
+
+function mostraSalaAttesa() {
+    aggiornaNumeroCoda();
+    mostraSchermata("salaAttesaVirtuale");
+}
+
+function attendiInCoda() {
+    if (timerScadenzaSessione) clearTimeout(timerScadenzaSessione);
+    // Dopo cinque secondi in sala d'attesa, la sessione viene dichiarata scaduta.
+    timerScadenzaSessione = window.setTimeout(mostraSessioneScaduta, 5000);
+}
+
+function nonHoAltroTempo() {
+    if (timerScadenzaSessione) clearTimeout(timerScadenzaSessione);
+    document.getElementById("popupSessioneScaduta").classList.add("hidden");
+    mostraSchermata("violazioneTermini");
+}
+
+function mostraSessioneScaduta() {
+    puntoInterrotto = "salaAttesaVirtuale";
+    document.getElementById("popupSessioneScaduta").classList.remove("hidden");
+}
+
+function riprendiDalPuntoInterrotto() {
+    document.getElementById("popupSessioneScaduta").classList.add("hidden");
+    chiudiPercorsoAssistenza();
+    mostraSalaAttesa();
+}
+
+function resetTentativo() {
+    // Pulisce timer e stati della sessione precedente, evitando blocchi al secondo tentativo.
+    [timerPopupAssistenza, timerProblemaRisolto, timerScadenzaSessione, timerPopupScaduta]
+        .forEach(timer => { if (timer) clearTimeout(timer); });
+    timerPopupAssistenza = null;
+    timerProblemaRisolto = null;
+    timerScadenzaSessione = null;
+    timerPopupScaduta = null;
+    popupAssistenzaGiaMostrato = false;
+    messaggiUtenteAssistenza = 0;
+    mescolaRisposteAssistenza();
+    numeroCoda = generaNumeroCoda();
+    puntoInterrotto = "salaAttesaVirtuale";
+
+    document.getElementById("percorsoAssistenza").classList.add("hidden");
+    document.getElementById("popupSessioneScaduta").classList.add("hidden");
+    document.getElementById("chatAssistenza").classList.add("hidden");
+    document.getElementById("apriAssistenza").classList.remove("hidden");
+    document.getElementById("messaggiChat").innerHTML = "<div class=\"support-message support-agent\">Benvenuto nell’assistenza. Come possiamo aiutarti?</div>";
+    document.getElementById("testoAssistenza").value = "";
+    document.getElementById("attesaErrore").classList.remove("hidden");
+    document.getElementById("attesaConclusa").classList.add("hidden");
+    document.getElementById("contoAllaRovescia").textContent = "5";
+    document.getElementById("vaiAvantiSalaAttesa").classList.add("hidden");
+    document.getElementById("caricamentoProblemaRisolto").classList.remove("hidden");
+    aggiornaNumeroCoda();
+}
+
+function riprovaProcedura() {
+    resetTentativo();
+    mostraSchermata("inizio");
+}
+
+function inviaMessaggioAssistenza(event) {
+    event.preventDefault();
+
+    const campo = document.getElementById("testoAssistenza");
+    const testo = campo.value.trim();
+    if (!testo) return;
+
+    const contenitore = document.getElementById("messaggiChat");
+
+    const messaggioUtente = document.createElement("div");
+    messaggioUtente.className = "support-message support-user";
+    messaggioUtente.textContent = testo;
+    contenitore.appendChild(messaggioUtente);
+
+    const risposta = document.createElement("div");
+    risposta.className = "support-message support-agent";
+    risposta.textContent = risposteAssistenza[indiceRispostaAssistenza % risposteAssistenza.length];
+    contenitore.appendChild(risposta);
+
+    indiceRispostaAssistenza += 1;
+    messaggiUtenteAssistenza += 1;
+
+    campo.value = "";
+    contenitore.scrollTop = contenitore.scrollHeight;
+
+    // Dopo quattro messaggi dell'utente (quindi quattro risposte), mostra l'avviso.
+    if (messaggiUtenteAssistenza >= 4) mostraPopupProblemaTecnico();
+}
+
+
+let richiestaEmailInviata = false;
+mescolaRisposteAssistenza();
+aggiornaNumeroCoda();
+
+async function continuaDallaPrimaSchermata() {
+    const campo = document.getElementById("emailVisitatore");
+    const errore = document.getElementById("erroreEmail");
+    const valore = campo ? campo.value.trim() : "";
+
+    errore.classList.add("hidden");
+    errore.textContent = "";
+
+    // Per consentire le prove senza consumare invii: basta qualsiasi testo non vuoto.
+    if (!valore) {
+        errore.textContent = "Per proseguire è necessario inserire un indirizzo email.";
+        errore.classList.remove("hidden");
+        campo.focus();
+        return;
+    }
+
+    // L'email viene inviata solo se il testo ha un formato email plausibile.
+    // Inserendo parole come PROVA o TEST si prosegue senza attivare Resend.
+    const sembraEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valore);
+
+    if (sembraEmail && !richiestaEmailInviata) {
+        try {
+            const risposta = await fetch("/api/invia-lettera", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: valore })
+            });
+            if (!risposta.ok && risposta.status !== 202) {
+                throw new Error("Richiesta non accettata");
+            }
+            richiestaEmailInviata = true;
+        } catch (erroreInvio) {
+            errore.textContent = "Non è stato possibile registrare la richiesta. Controlla la connessione e riprova.";
+            errore.classList.remove("hidden");
+            return;
+        }
+    }
+
+    apriCookie();
+}
+
+</script>
+
+
+</body>
+</html>
