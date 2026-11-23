@@ -39,6 +39,29 @@ Grazie per averlo dedicato alla mia opera. Anche se, forse, l’opera eri propri
 Vittoria Iacurci`;
 
 
+const letterHtml = `<!doctype html>
+<html lang="it">
+  <body style="margin: 0; padding: 24px; font-family: Arial, Helvetica, sans-serif; color: #222222; background: #ffffff;">
+    <div style="max-width: 680px; margin: 0 auto; font-size: 16px;">
+      <p style="margin: 0 0 18px 0; line-height: 1.65;">Grazie per aver partecipato a questa esperienza!</p>
+      <p style="margin: 0 0 18px 0; line-height: 1.65;">Ti ho sottratto alcuni minuti del tuo tempo promettendoti di mostrarti un’opera, eppure quell’opera non l’hai vista.</p>
+      <p style="margin: 0 0 18px 0; line-height: 1.65;">O forse sì.</p>
+      <p style="margin: 0 0 18px 0; line-height: 1.65;">Ogni giorno qualcuno o qualcosa ruba il tuo tempo:</p>
+      <p style="margin: 0 0 18px 0; line-height: 1.65;">nel traffico, alle casse, aspettando i mezzi pubblici, al telefono con l’assistenza clienti, scrollando sui social…</p>
+      <p style="margin: 0 0 18px 0; line-height: 1.65;">Il tempo è diventato una merce: lo vendiamo lavorando, lo cediamo aspettando, lo regaliamo alle piattaforme. Siamo diventati efficienti nel perdere tempo e incapaci di dedicarlo a noi stessi.</p>
+      <p style="margin: 0 0 18px 0; line-height: 1.65;">Le aziende ricorrono sempre di più a chatbot e a sistemi di risposta automatici per ridurre i costi. Ci hanno illusi che la tecnologia ci avrebbe fatto risparmiare tempo, ma delegando alle macchine il lavoro, le decisioni e persino il pensiero, si sta creando uno strato sociale incapace di pensare autonomamente, totalmente dipendente dalla tecnologia e con ridotta capacità di concentrazione.</p>
+      <p style="margin: 0 0 18px 0; line-height: 1.65;">Probabilmente hai dedicato più tempo a cercare di accedere a quest’opera che a osservare molte altre opere d’arte. Davanti a un dipinto, a una fotografia o a una scultura ci fermiamo pochi secondi, per poi proseguire. Qui invece hai “perso” tempo cercando di accedere a una promessa che non è stata mantenuta.</p>
+      <p style="margin: 0 0 18px 0; line-height: 1.65;">Quanto tempo dedichiamo a questi meccanismi?</p>
+      <p style="margin: 0 0 18px 0; line-height: 1.65;">Eppure per fare ciò che davvero desideriamo, diciamo spesso di non avere tempo.</p>
+      <p style="margin: 0 0 18px 0; line-height: 1.65;">Il mio è un invito a riflettere sul valore del proprio tempo, ma anche su chi ne dispone e chi ne trae profitto.</p>
+      <p style="margin: 0 0 18px 0; line-height: 1.65;">E se sei arrivato fin qui, forse il tempo lo hai trovato.</p>
+      <p style="margin: 0 0 18px 0; line-height: 1.65;">Grazie per averlo dedicato alla mia opera. Anche se, forse, l’opera eri proprio tu.</p>
+      <p style="margin: 0 0 18px 0; line-height: 1.65;">Vittoria Iacurci</p>
+    </div>
+  </body>
+</html>`;
+
+
 
 export default async (req) => {
   if (req.method !== "POST") return;
@@ -91,6 +114,7 @@ export default async (req) => {
       to: [recipient],
       subject: "La tua esperienza artistica è terminata?",
       text: letterText,
+      html: letterHtml,
     }),
   });
 
